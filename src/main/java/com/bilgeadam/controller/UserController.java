@@ -1,6 +1,8 @@
 package com.bilgeadam.controller;
 
+import com.bilgeadam.repository.criteriaquery.UserRepository;
 import com.bilgeadam.repository.entity.*;
+import com.bilgeadam.repository.hql.UserDao;
 import com.bilgeadam.utility.HibernateUtility;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -10,7 +12,13 @@ import java.util.*;
 public class UserController {
 
     public static void main(String[] args) {
-        createUsers();
+      //  createUsers();
+        UserRepository userRepository=new UserRepository();// criteria query için
+        UserDao userDao=new UserDao();// hql için
+      //userRepository.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+        userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+
+
     }
 
     public  static  void createUsers(){

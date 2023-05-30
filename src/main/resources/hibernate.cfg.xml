@@ -12,7 +12,7 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
 <!--        mapleme 1. yontem-->
 <!--      <mapping  class="com.bilgeadam.repository.entity.User"/>-->
