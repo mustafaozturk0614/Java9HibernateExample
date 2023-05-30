@@ -16,7 +16,9 @@ public class UserController {
         UserRepository userRepository=new UserRepository();// criteria query için
         UserDao userDao=new UserDao();// hql için
       //userRepository.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
-        userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+      //  userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+       userDao.findById(2L);  ;
+       userRepository.findById(2L);
 
 
     }

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDao implements ICrud<User> {
 
@@ -26,7 +27,22 @@ public class UserDao implements ICrud<User> {
     }
 
     @Override
-    public User findById(Long id) {
-        return null;
+    public Optional<User> findById(Long id) {
+        String hql="select u from User as  u where u.id="+id;
+        Session session=HibernateUtility.getSessionFactory().openSession();
+        TypedQuery<User> typedQuery=session.createQuery(hql,User.class);
+        User user= null;
+        try {
+            user = typedQuery.getSingleResult();
+            System.out.println(user);
+            return Optional.of(user);
+        } catch (Exception e) {
+            System.out.println("Kullanıcı bulunamadı");
+            return Optional.empty();
+        }finally {
+            System.out.println("Kapanıyor");
+            session.close();
+        }
+
     }
 }

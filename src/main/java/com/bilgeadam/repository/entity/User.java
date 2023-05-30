@@ -38,10 +38,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private EGender gender;
 
-    @ElementCollection
+    @ElementCollection()
     private List<String> interests;
 
-    @ElementCollection
+    @ElementCollection()
     @MapKeyEnumerated(EnumType.STRING)
     private Map<EAddressType,Address> addresses;
     @Transient//-- bu ozellik databsede olustulmuyacak
