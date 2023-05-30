@@ -2,14 +2,10 @@ package com.bilgeadam.repository.entity;
 /*
     bir user sınıfı olusturalım
     id name username password olan bir user entitiysi olustruup databse e bir kayıt aralım
-
+    -- odev
     1-AdressType enuma olsun ==> ev iş diğer
     2- adress  sınıfımız olsun ==>country,city
-    3-Userda bir adress mapi tutatalım   adresetype a karsılık adress tutalım 
-
-
-
-
+    3-Userda bir adress mapi tutatalım   adresetype a karsılık adress tutalım
  */
 
 
@@ -20,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -44,8 +41,13 @@ public class User {
     @ElementCollection
     private List<String> interests;
 
-    @Transient
+    @ElementCollection
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<EAddressType,Address> addresses;
+    @Transient//-- bu ozellik databsede olustulmuyacak
     private  int age;
+
+    private int postCount;
 
     //@Lob--> buyuk veriler için
 

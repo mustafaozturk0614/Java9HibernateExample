@@ -1,5 +1,6 @@
 package com.bilgeadam.utility;
 
+import com.bilgeadam.repository.entity.Post;
 import com.bilgeadam.repository.entity.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -15,6 +16,8 @@ public class HibernateUtility {
         try {
             Configuration configuration=new Configuration();
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(Post.class);
+
             SessionFactory sessionFactory=configuration.configure("hibernate.cfg.xml").buildSessionFactory();
             return  sessionFactory;
         } catch (HibernateException e) {
