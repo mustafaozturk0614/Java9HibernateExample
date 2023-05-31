@@ -12,20 +12,37 @@ import java.util.*;
 public class UserController {
 
     public static void main(String[] args) {
-      //  createUsers();
+        //  createUsers();
         UserRepository userRepository=new UserRepository();// criteria query için
         UserDao userDao=new UserDao();// hql için
-      //userRepository.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
-      //  userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
-       userDao.findById(2L);  ;
-       userRepository.findById(2L);
+        //userRepository.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+        //  userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+//        userDao.findById(2L);  ;
+//        userRepository.findById(2L);
+//        Optional<User> user=userDao.findByUsername("zlh");
+//        if (user.isEmpty()){
+//            System.out.println("Kullanıcı yine bulunamadı");
+//            System.out.println(user);
+//        }else{
+//            System.out.println(user.get().getUsername());
+//        }
+   //     userRepository.findAllName().forEach(x-> System.out.println(x.getFirstName()+" "+x.getLastName()));
+//        userDao.findAllName().forEach(x-> System.out.println(x.getFirstName()+" "+x.getLastName()));
+       // userRepository.findAllFirstName().forEach(System.out::println);
+      //  userDao.findAllFirstName().forEach(System.out::println);
+      //  userRepository.findAllFirstNameStartWith("M").forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+      //  userDao.findAllFirstNameStartWith("Z").forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
+           /* userRepository
+                    .findAllFirstNameStartWithAndPostCount("M")
+                    .forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()+"==>"+x.getPostCount()));*/
 
-
+        System.out.println(userRepository.sumPostCount());   ;
+        System.out.println(userDao.sumPostCount());   ;
     }
 
     public  static  void createUsers(){
         Session session= HibernateUtility.getSessionFactory().openSession();
-        Transaction transaction= session.beginTransaction();
+        Transaction transaction= session.getTransaction();
         List<String> list1= Arrays.asList("Astrololi","Sinema");
         List<String> list2= Arrays.asList("Dans","Müzik");
         List<String> list3= Arrays.asList("Seyehat","Tiyatro");
@@ -87,15 +104,5 @@ public class UserController {
                 .postCount(9)
                 .password("12345")
                 .build();
-    session.save(user1);
-    session.save(user2);
-    session.save(user3);
-    session.save(user4);
-    session.save(user5);
-    transaction.commit();
-    session.close();
     }
-
-
-
 }

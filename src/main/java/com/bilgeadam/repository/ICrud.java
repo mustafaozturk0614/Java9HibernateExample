@@ -5,9 +5,7 @@ import java.util.Optional;
 
 public interface ICrud<T> {
 
-
     List<T> findAll();
     Optional<T> findById(Long id);
-
 
 }
