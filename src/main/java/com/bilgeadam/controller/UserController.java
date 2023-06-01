@@ -7,6 +7,7 @@ import com.bilgeadam.utility.HibernateUtility;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Tuple;
 import java.util.*;
 
 public class UserController {
@@ -15,6 +16,10 @@ public class UserController {
         //  createUsers();
         UserRepository userRepository=new UserRepository();// criteria query için
         UserDao userDao=new UserDao();// hql için
+
+
+
+
         //userRepository.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
         //  userDao.findAll().forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()));
 //        userDao.findById(2L);  ;
@@ -36,8 +41,31 @@ public class UserController {
                     .findAllFirstNameStartWithAndPostCount("M")
                     .forEach(x-> System.out.println(x.getId()+"-"+x.getName()+"-"+x.getUsername()+"==>"+x.getPostCount()));*/
 
-        System.out.println(userRepository.sumPostCount());   ;
-        System.out.println(userDao.sumPostCount());   ;
+//        System.out.println(userRepository.sumPostCount());   ;
+//        System.out.println(userDao.sumPostCount());   ;
+   //     System.out.println(userRepository.findUserMaxPost2());
+//        userRepository.getUsernameGenderPostCount().forEach(x->{
+//            Object[] array=x;
+//            for (Object o:array){
+//                System.out.print(o+"-");
+//            }
+//            System.out.println();
+//        });
+        List<Tuple> tuple=userRepository.getUsernameGenderPostCount2();
+        tuple.forEach(x-> {
+            System.out.println(x.get(0)+"-"+x.get(1)+"-"+x.get(2));
+            //System.out.println(Arrays.toString(x.toArray()));
+
+        });
+        System.out.println("-----------");
+        userDao.getUsernameGenderPostCount().forEach(x->{
+            Object[] array=x;
+            for (Object o:array){
+                System.out.print(o+"-");
+            }
+            System.out.println();
+        });
+
     }
 
     public  static  void createUsers(){

@@ -1,11 +1,14 @@
 package com.bilgeadam.repository.criteriaquery;
 
 import com.bilgeadam.repository.ICrud;
+import com.bilgeadam.repository.entity.EGender;
 import com.bilgeadam.repository.entity.Name;
+import com.bilgeadam.repository.entity.Post;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.utility.HibernateUtility;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
 import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +48,8 @@ public class UserRepository implements ICrud<User> {
 
         return  userList;
     }
+
+
 
     @Override
     public Optional<User> findById(Long id) {
@@ -135,4 +140,53 @@ public class UserRepository implements ICrud<User> {
         return  entityManager.createQuery(criteriaQuery).getSingleResult();
     }
 
+
+    public  User findUserMaxPost(){
+        CriteriaQuery<User> criteriaQuery=criteriaBuilder.createQuery(User.class);
+        Root<User> root=criteriaQuery.from(User.class);
+        criteriaQuery.select(root).orderBy(criteriaBuilder.desc(root.get("postCount"))) ;
+        System.out.println("Buyukten kucuge sıralama");
+        entityManager.createQuery(criteriaQuery).getResultList().forEach(x->  System.out.println(x.getName()+"-"+x.getPostCount()));
+      return entityManager.createQuery(criteriaQuery).getResultList().get(0);
+    }
+
+    public  User findUserMaxPost2(){
+        //1  maximum post sayısını buldugumuz query
+        CriteriaQuery<Integer> criteriaQuery=criteriaBuilder.createQuery(Integer.class);
+        Root<User> root=criteriaQuery.from(User.class);
+        Expression<Integer> postCount =criteriaBuilder.max(root.get("postCount"));
+        criteriaQuery.select(postCount);
+        Integer max=   entityManager.createQuery(criteriaQuery).getSingleResult();
+        //2 max sayıya gore user ı buldugmuz query
+        CriteriaQuery<User> criteriaQuery2= criteriaBuilder.createQuery(User.class);
+        Root<User> root2=criteriaQuery2.from(User.class);
+        Predicate predicate=criteriaBuilder.equal(root2.get("postCount"),max);
+        criteriaQuery2.select(root2).where(predicate);
+        return  entityManager.createQuery(criteriaQuery2).getSingleResult();
+    }
+
+    public  List<Object[]>  getUsernameGenderPostCount(){
+    CriteriaQuery< Object[] > criteriaQuery=criteriaBuilder.createQuery(Object[].class);
+    Root<User> root=criteriaQuery.from(User.class);
+    criteriaQuery.multiselect(root.get("username"),root.get("gender"),root.get("postCount"));
+    return  entityManager.createQuery(criteriaQuery).getResultList();
+    }
+    public  List<Tuple>  getUsernameGenderPostCount2(){
+        CriteriaQuery<Tuple> criteriaQuery=criteriaBuilder.createQuery(Tuple.class);
+        Root<User> root=criteriaQuery.from(User.class);
+        Path<String> pathUsername= root.get("username");
+        Path<EGender> pathGender= root.get("gender");
+        Path<Integer> pathPostCount= root.get("postCount");
+        criteriaQuery.multiselect(pathUsername,pathGender,pathPostCount);
+        //2.yontem
+      //  criteriaQuery.multiselect(root.get("username"),root.get("gender"),root.get("postCount"));
+    List<Tuple> tuple= entityManager.createQuery(criteriaQuery).getResultList();
+        System.out.println("=========================");
+        tuple.forEach(x-> {
+            System.out.println(x.get(pathUsername)+"-"+x.get(pathGender)+"-"+x.get(pathPostCount));
+        });
+        System.out.println("=========================");
+       return  tuple;
+
+    }
 }

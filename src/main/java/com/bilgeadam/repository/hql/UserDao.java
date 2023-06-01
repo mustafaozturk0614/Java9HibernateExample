@@ -99,5 +99,11 @@ public class UserDao implements ICrud<User> {
         return  typedQuery.getSingleResult();
     }
 
+    public List<Object[]> getUsernameGenderPostCount(){
+    String hql="select u.username ,u.postCount,u.gender from User as u";
+    Session session=HibernateUtility.getSessionFactory().openSession();
+    TypedQuery<Object[]> typedQuery=session.createQuery(hql,Object[].class);
+        return typedQuery.getResultList();
+    }
 
 }
