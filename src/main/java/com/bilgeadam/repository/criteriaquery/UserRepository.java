@@ -25,7 +25,7 @@ import java.util.Optional;
 9- Post countların toplamını bulalım
 10- en cok post atan kullanıcıyı bulalım
 11-Butunkullanıcıların  username gender ve postcount nu donen sorgu  (2 tane yontemi var 2 sinide deneyin)
-
+12- her cınsıyette ki kullanıclar ve toplam attıkları post sayısı
  */
 public class UserRepository implements ICrud<User> {
 
@@ -188,5 +188,24 @@ public class UserRepository implements ICrud<User> {
         System.out.println("=========================");
        return  tuple;
 
+    }
+    /*
+        erkek-20
+        kadın-30
+     */
+    public  List<Object[]>  postCountByGender(){
+         CriteriaQuery<Object[]> criteriaQuery=criteriaBuilder.createQuery(Object[].class);
+         Root<User> root=criteriaQuery.from(User.class);
+         criteriaQuery.multiselect(root.get("gender"),criteriaBuilder.sum(root.get("postCount")))
+                 .groupBy(root.get("gender"));
+         return  entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    public  List<Tuple>  postCountAvgByGender(){
+        CriteriaQuery<Tuple> criteriaQuery=criteriaBuilder.createQuery(Tuple.class);
+        Root<User> root=criteriaQuery.from(User.class);
+        criteriaQuery.multiselect(root.get("gender"),criteriaBuilder.avg(root.get("postCount")))
+                .groupBy(root.get("gender"));
+        return  entityManager.createQuery(criteriaQuery).getResultList();
     }
 }

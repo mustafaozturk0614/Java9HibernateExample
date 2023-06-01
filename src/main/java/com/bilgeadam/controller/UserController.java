@@ -51,7 +51,7 @@ public class UserController {
 //            }
 //            System.out.println();
 //        });
-        List<Tuple> tuple=userRepository.getUsernameGenderPostCount2();
+/*        List<Tuple> tuple=userRepository.getUsernameGenderPostCount2();
         tuple.forEach(x-> {
             System.out.println(x.get(0)+"-"+x.get(1)+"-"+x.get(2));
             //System.out.println(Arrays.toString(x.toArray()));
@@ -64,7 +64,18 @@ public class UserController {
                 System.out.print(o+"-");
             }
             System.out.println();
-        });
+        });*/
+
+        userRepository.postCountByGender().forEach(x->{
+
+                    for (Object o :x){
+                        System.out.print(o+" ");
+                    }
+                    System.out.println();
+                }
+                );
+
+        userRepository.postCountAvgByGender().forEach(x-> System.out.println(Arrays.toString(x.toArray())));
 
     }
 
