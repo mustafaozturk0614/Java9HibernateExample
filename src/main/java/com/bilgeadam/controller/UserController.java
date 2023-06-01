@@ -75,7 +75,8 @@ public class UserController {
                 }
                 );
 
-        userRepository.postCountAvgByGender().forEach(x-> System.out.println(Arrays.toString(x.toArray())));
+        userRepository.postCountAvgByGender().forEach(x->
+                System.out.println(Arrays.toString(x.toArray())));
 
     }
 
